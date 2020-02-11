@@ -40,7 +40,7 @@ const Unit unit = const Unit._internal();
 /// 
 /// Both the [zero] and [append] methods, obviously, can only return [unit].
 /// 
-/// Unlike [Unit], [UnitMonoidal] can be instantiated, but the variable [UnitMi] may be used instead for practical reasons.
+/// Unlike [Unit], [UnitMonoid] can be instantiated, but the variable [UnitMi] may be used instead for practical reasons.
 class UnitMonoid extends Monoid<Unit> {
   @override Unit zero() => unit;
 
