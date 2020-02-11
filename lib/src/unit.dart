@@ -8,8 +8,8 @@ part of dartz;
 /// The [Unit] is the singleton set on the category of types. This means that every instance of the [Unit] will be, a reference to
 /// the same value.
 /// 
-/// As Dart won't guarantee this, [Unit] can't be instantiated, and to properly way to use [Unit] is to return the variable [unit],
-/// defined on the library:
+/// As Dart won't guarantee this, [Unit] can't be instantiated, and the properly way to use [Unit] is to return the variable
+/// [unit], defined on the library:
 /// 
 /// ```dart
 /// Unit doSomething(...) {
@@ -40,12 +40,12 @@ const Unit unit = const Unit._internal();
 /// 
 /// Both the [zero] and [append] methods, obviously, can only return [unit].
 /// 
-/// Like [Unit], [UnitMonoidal] can't be intstantiated, and the proper way of using it is through the [UnitMi] variable.
+/// Unlike [Unit], [UnitMonoidal] can be instantiated, but the variable [UnitMi] may be used instead for practical reasons.
 class UnitMonoid extends Monoid<Unit> {
   @override Unit zero() => unit;
 
   @override Unit append(Unit u1, Unit u2) => unit;
 }
 
-/// The only [UnitMonoid] value.
+/// The [UnitMonoid] value.
 final Monoid<Unit> UnitMi = new UnitMonoid();
