@@ -24,10 +24,16 @@ part of dartz;
 /// ## Additional details
 /// 
 /// Conceptually, [Unit] is, to some extent, equivalent to Dart's `void`. For example, `void` is a singleton, and it's used
-/// when we don't really care about a method's returning value or generic type.  However, `void` is not a real type and has a
-/// lot of inconsistencies. Also, it lacks its monoidal properties, and can't be used on type compositions.
+/// when we don't really care about a method's returning value or generic type.  However, `void` is not really a type, and thus has
+/// some inconsistencies, like:
+///
+/// - Although we can declare a variable as `void`, the variable can only be assigned through a `void` function.
+/// - `void` expressions can't be used.
+/// - Returning values in a regular `void` method result in a `Error: Can't return a value from a void function.`, while `void` expression methods can return any value;
+/// - Even if the compiler states that we can't return a value from a `void` function, it won't complain if we return `void` functions, `null` and `dynamic`;
+/// - Even being able to return any value from `void` expression  methods, the returned value can't be used;
 /// 
-/// To solve these problems, the [Unit] and [UnitMonoid] types are provided here.
+/// [Unit] and solves these.
 class Unit {
   const Unit._internal();
   @override String toString() => "()";
