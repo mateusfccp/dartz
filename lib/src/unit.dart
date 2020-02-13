@@ -3,7 +3,7 @@
 
 part of dartz;
 
-/// A single-value type.
+/// A single-value type that carries no information.
 /// 
 /// The [Unit] is a singleton type. This means that every instance of the [Unit] will be, a reference to the same value.
 /// 
@@ -34,6 +34,12 @@ part of dartz;
 /// - Even being able to return any value from `void` expression  methods, the returned value can't be used;
 /// 
 /// [Unit] and solves these.
+/// 
+/// ## In-depth references
+/// - [nLab on Unit type](https://ncatlab.org/nlab/show/unit+type)
+/// - [nLab on Terminal Objects](https://ncatlab.org/nlab/show/terminal+object)
+/// - [Category Theory for Programmers](https://bartoszmilewski.com/2015/01/07/products-and-coproducts/) (refer to "Terminal Object" section)
+/// 
 class Unit {
   const Unit._internal();
   @override String toString() => "()";
