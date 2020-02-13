@@ -3,10 +3,9 @@
 
 part of dartz;
 
-/// The terminal object of the types category.
+/// A single-value type.
 /// 
-/// The [Unit] is the singleton set on the category of types. This means that every instance of the [Unit] will be, a reference to
-/// the same value.
+/// The [Unit] is a singleton type. This means that every instance of the [Unit] will be, a reference to the same value.
 /// 
 /// As Dart won't guarantee this, [Unit] can't be instantiated, and the properly way to use [Unit] is to return the variable
 /// [unit], defined on the library:
@@ -40,7 +39,7 @@ const Unit unit = const Unit._internal();
 /// 
 /// Both the [zero] and [append] methods, obviously, can only return [unit].
 /// 
-/// Unlike [Unit], [UnitMonoid] can be instantiated, but the variable [UnitMi] may be used instead for practical reasons.
+/// The variable [UnitMi] may be used instead for practical reasons.
 class UnitMonoid extends Monoid<Unit> {
   @override Unit zero() => unit;
 
