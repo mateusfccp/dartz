@@ -33,8 +33,6 @@ part of dartz;
 /// - Even if the compiler states that we can't return a value from a [void] function, it won't complain if we return [void] functions, [null] and [dynamic];
 /// - Even being able to return any value from [void] expression  methods, the returned value can't be used;
 /// 
-/// [Unit] and solves these.
-/// 
 /// ## In-depth references
 /// - [nLab on Unit type](https://ncatlab.org/nlab/show/unit+type)
 /// - [nLab on Terminal Objects](https://ncatlab.org/nlab/show/terminal+object)
