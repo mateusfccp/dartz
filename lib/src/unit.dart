@@ -37,7 +37,6 @@ part of dartz;
 /// - [nLab on Unit type](https://ncatlab.org/nlab/show/unit+type)
 /// - [nLab on Terminal Objects](https://ncatlab.org/nlab/show/terminal+object)
 /// - [Category Theory for Programmers](https://bartoszmilewski.com/2015/01/07/products-and-coproducts/) (refer to "Terminal Object" section)
-/// 
 class Unit {
   const Unit._internal();
   @override String toString() => "()";

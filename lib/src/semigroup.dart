@@ -2,7 +2,7 @@
 
 part of dartz;
 
-/// A structure with an associative append method.
+/// A structure with an associative [append] method.
 /// 
 /// A [Semigroup<A>] has only two requirements:
 /// - It has to have an [append] method that combines two `A`.
@@ -30,7 +30,6 @@ part of dartz;
 /// ## In-depth references
 /// - [nLab on Semigroup](https://ncatlab.org/nlab/show/semigroup)
 /// - [Typeclassopedia](https://wiki.haskell.org/Typeclassopedia#Semigroup)
-/// 
 abstract class Semigroup<A> {
   /// Combines two elements into one.
   /// 
