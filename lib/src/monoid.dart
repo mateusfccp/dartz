@@ -7,7 +7,7 @@ part of dartz;
 /// A [Monoid<A>] has the same requirements as a [Semigroup<A>], plus a method [zero] that returns an `A`
 /// that, when [append]ed with another `A x`, returns `x`.
 /// 
-/// For example, a [Monoid] on [int] could be like:
+/// For example, a [Monoid] on [int] with operation `*` could be like:
 /// ```dart
 /// class IntMonoid extends Monoid<int> {
 ///   @override
@@ -45,4 +45,7 @@ class _AnonymousMonoid<A> extends Monoid<A> {
   @override A append(A a1, A a2) => _append(a1, a2);
 }
 
+/// Creates an anonymous monoid.
+/// 
+/// [zero] and [append] are exactly the same as in [Monoid].
 Monoid<A> monoid<A>(A zero(), A append(A t1, A t2)) => new _AnonymousMonoid(zero, append);
