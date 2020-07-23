@@ -14,7 +14,7 @@ part of dartz;
 /// ['one', 'two', 'three'].map((element) => element.length); // [3, 3, 5]
 /// ```
 ///
-/// Examples of [Functor]s are [IList], [Option] and [Id].
+/// Examples of [Functor]s are [IList] and [Option].
 ///
 /// For a OO-friendly version of [Functor], refer to [FunctorOps].
 ///

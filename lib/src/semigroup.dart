@@ -54,14 +54,14 @@ class _AnonymousSemigroup<A> extends Semigroup<A> {
 Semigroup<A> semigroup<A>(A append(A a1, A a2)) =>
     new _AnonymousSemigroup(append);
 
-/// A [Semigroup] whose [append] always return the first element.
+/// A [Semigroup] whose [Semigroup.append] always return the first element.
 final Semigroup FirstSemigroup = semigroup((a1, a2) => a1);
 
-/// Creates a [Semigroup] on `A` whose [append] always return the first element.
+/// Creates a [Semigroup] on `A` whose [Semigroup.append] always return the first element.
 Semigroup<A> firstSemigroup<A>() => semigroup((a1, a2) => a1);
 
-/// A [Semigroup] whose [append] always return the second element.
+/// A [Semigroup] whose [Semigroup.append] always return the second element.
 final Semigroup SecondSemigroup = semigroup((a1, a2) => a2);
 
-/// Creates a [Semigroup] on `A` whose [append] always return the second element.
+/// Creates a [Semigroup] on `A` whose [Semigroup.append] always return the second element.
 Semigroup<A> secondSemigroup<A>() => semigroup((a1, a2) => a2);

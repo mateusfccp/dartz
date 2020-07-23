@@ -131,7 +131,21 @@ Function2<B, A, C> flip<A, B, C>(Function2<A, B, C> f) => (b, a) => f(a, b);
 /// ```
 Function1<A, C> composeF<A, B, C>(Function1<B, C> f, Function1<A, B> g) => (a) => f(g(a));
 
-/// Makes a function that will return [b] disregarding its input parameter [a].
+/// Makes a constant function.
+///
+/// A constant function is a function that will receive any input of type [A],
+/// and will return [b] disregarding its input parameter.
+///
+/// For example, if you want to map all elements of an [IList] to a specific
+/// value, you can do:
+///
+/// ```dart
+/// // Generate a list of integers from 0 to 4
+/// final list = IList.generate(5, id);
+///
+/// // Maps all elements of [list] to `0`
+/// list.map(constF(0));
+/// ```
 Function1<A, B> constF<A, B>(B b) => (A a) => b;
 
 class Function0TraversableMonad extends Traversable<Function0> with Applicative<Function0>, Monad<Function0>, TraversableMonad<Function0> {
