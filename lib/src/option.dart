@@ -77,11 +77,38 @@ abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
 
   /// Returns the wrapped value or [dflt].
   ///
+  /// Example:
+  /// ```dart
+  /// // Get some data from our database
+  /// final Option<Data> data = database.getData(id: 10);
+  ///
+  /// // Print it by with [getOrElse] by providing a fallback value
+  /// print("We got ${data.getOrElse(() => 'nothing')} here!");
+  /// ```
+  ///
   /// See also:
-  ///  - [operator |]
+  ///  - [operator |], which is a _syntax sugar_ for [getOrElse], but without
+  ///    lazy evaluation.
   A getOrElse(A dflt()) => fold(dflt, (a) => a);
+
   Either<B, A> toEither<B>(B ifNone()) => fold(() => left(ifNone()), (a) => right(a));
   Either<dynamic, A> operator %(ifNone) => toEither(() => ifNone);
+
+  /// Returns the wrapped value or [dflt].
+  ///
+  /// This is almost the same as [getOrElse], with the exception that this
+  /// operator doesn't support lazy evaluation of [dflt], as [getOrElse]
+  /// does.
+  /// 
+  /// Example: 
+  /// 
+  /// ```dart
+  /// // Get some data from our database
+  /// final Option<Data> data = database.getData(id: 10);
+  /// 
+  /// // Alternatively, we can use the `|` operator
+  /// print("We got ${data | 'nothing'} here!");
+  /// ```
   A operator |(A dflt) => getOrElse(() => dflt);
 
   @override Option<B> map<B>(B f(A a)) => fold(none, (A a) => some(f(a)));
