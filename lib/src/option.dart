@@ -2,13 +2,83 @@
 
 part of dartz;
 
+/// A type that can represent a value or the absence of it.
+///
+/// A variable of the type [Option<A>] may have two possible values:
+///  - [Some<A>], when there's a value of type [A].
+///  - [None], when there's no value.
+///
+/// The [Option] type is a viable and safer alternative to [Null]. It can be
+/// used to represent, for instance, the failure of a computation or the simple
+/// absence of a value.
+///
+/// As an [Option] is a wrapped value, it can't be used directly. To use the
+/// (possible) internal value you have to explicitly check for the case where
+/// the value actually don't exists. This is what guarantees compile-time
+/// safety for the case when the value is absent.
+///
+/// Value matching is usually done with [fold]. Example:
+/// ```dart
+/// // Get some data from our database
+/// final Option<Data> data = database.getData(id: 10);
+///
+/// // We have to explicitly define the behavior for when the returned [data]
+/// // is [None] or [Some].
+/// final message = data.fold(
+///   // The first argument is for the [None] case
+///   () => "There's no data with ID 10!",
+///   // The second argument is for the [Some] case.
+///   // The [Some] value is provided in the [data] parameter.
+///   (data) => "The returned data is $data!"
+/// );
+///
+/// print(message);
+/// ```
+///
+/// If you want to simply return the wrapped value you may use [getOrElse]:
+/// ```dart
+/// // Get some data from our database
+/// final Option<Data> data = database.getData(id: 10);
+///
+/// // Print it by with [getOrElse] by providing a fallback value
+/// print("We got ${data.getOrElse(() => 'nothing')} here!");
+///
+/// // Alternatively, we can use the `|` operator
+/// print("We got ${data | 'nothing'} here!");
+/// ```
+/// Alternatively, if you want a quick access to the internal
 abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
   const Option();
 
+  /// TODO
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// // Get some data from our database
+  /// final data = database.getData(id: 10);
+  ///
+  /// // We have to explicitly define the behavior for when the returned [data]
+  /// // is [None] or [Some].
+  /// final message = data.fold(
+  ///   // The first argument is for the [None] case
+  ///   () => "There's no data with ID 10!",
+  ///   // The second argument is for the [Some] case.
+  ///   // The [Some] value is provided in the [data] parameter.
+  ///   (data) => "The returned data is $data!"
+  /// );
+  ///
+  /// print(message);
+  /// ```
   B fold<B>(B ifNone(), B ifSome(A a));
 
   B cata<B, B2 extends B>(B ifNone(), B2 ifSome(A a)) => fold(ifNone, ifSome);
   Option<A> orElse(Option<A> other()) => fold(other, (_) => this);
+
+  /// Returns the wrapped value or [dflt].
+  ///
+  /// See also:
+  ///  - [operator |]
   A getOrElse(A dflt()) => fold(dflt, (a) => a);
   Either<B, A> toEither<B>(B ifNone()) => fold(() => left(ifNone()), (a) => right(a));
   Either<dynamic, A> operator %(ifNone) => toEither(() => ifNone);
