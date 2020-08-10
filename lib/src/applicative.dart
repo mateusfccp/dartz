@@ -4,6 +4,18 @@ part of dartz;
 
 abstract class Applicative<F> implements Functor<F> {
   F pure<A>(A a);
+
+  /// Apply the function within [ff] to the value within [fa].
+  /// 
+  /// Example:
+  /// ```dart
+  /// final optionAdd = Some((a) => a + 1);
+  /// final optionNumber = Some(9);
+  /// 
+  /// final result = ap(optionAdd, optionNumber);
+  /// 
+  /// assert(result, Some(10));
+  /// ```
   F ap<A, B>(F fa, F ff);
 
   F get nothing => pure(unit);

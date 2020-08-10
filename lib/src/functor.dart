@@ -36,7 +36,7 @@ abstract class Functor<F> {
   /// ```
   F map<A, B>(F fa, B f(A a));
 
-  /// Injects [b] to the left of the [A] value of [fa] as a tuple.
+  /// Injects [b] to the left of the [A] value of [fa] as a [Tuple2].
   ///
   /// Example:
   /// ```dart
@@ -49,7 +49,7 @@ abstract class Functor<F> {
   /// ```
   F strengthL<A, B>(F fa, B b) => map(fa, (a) => tuple2(b, a));
 
-  /// Injects [b] to the right of the [A] value of [fa] as a tuple.
+  /// Injects [b] to the right of the [A] value of [fa] as a [Tuple2].
   ///
   /// Example:
   /// ```dart
@@ -92,7 +92,7 @@ abstract class FunctorOps<F, A> {
   /// ```
   F map<B>(B f(A a));
 
-  /// Injects [b] to the left of the [A] value of this [Functor] as a tuple.
+  /// Injects [b] to the left of the [A] value of [this] as a [Tuple2].
   ///
   /// Example:
   /// ```dart
@@ -103,7 +103,7 @@ abstract class FunctorOps<F, A> {
   /// ```
   F strengthL<B>(B b); // => map((a) => tuple2(b, a));
 
-  /// Injects [b] to the right of the [A] value of this [Functor] as a tuple.
+  /// Injects [b] to the right of the [A] value of [this] as a [Tuple2].
   ///
   /// Example:
   /// ```dart

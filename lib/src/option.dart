@@ -5,7 +5,7 @@ part of dartz;
 /// A type that can represent a value or the absence of it.
 ///
 /// A variable of the type [Option<A>] may have two possible values:
-///  - [Some<A>], when there's a value of type [A].
+///  - [Some], when there's a value of type [A].
 ///  - [None], when there's no value.
 ///
 /// The [Option] type is a viable and safer alternative to [Null]. It can be
@@ -46,7 +46,6 @@ part of dartz;
 /// // Alternatively, we can use the `|` operator
 /// print("We got ${data | 'nothing'} here!");
 /// ```
-/// Alternatively, if you want a quick access to the internal
 abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
   const Option();
 
@@ -72,7 +71,17 @@ abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
   /// ```
   B fold<B>(B ifNone(), B ifSome(A a));
 
+  /// TODO: What does it do?
   B cata<B, B2 extends B>(B ifNone(), B2 ifSome(A a)) => fold(ifNone, ifSome);
+
+  /// Returns [this] or another [Option].
+  /// 
+  /// If this is [Some], then [this] is returned. Else, [other] is returned.
+  /// 
+  /// TODO: Example
+  /// 
+  /// See also:
+  ///  - [getOrElse], which unwraps the value if [this] is [Some].
   Option<A> orElse(Option<A> other()) => fold(other, (_) => this);
 
   /// Returns the wrapped value or [dflt].
@@ -89,16 +98,58 @@ abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
   /// See also:
   ///  - [operator |], which is a _syntax sugar_ for [getOrElse], but without
   ///    lazy evaluation.
+  ///  - [orElse], which is similar but without unwrapping the value.
   A getOrElse(A dflt()) => fold(dflt, (a) => a);
 
+  /// Transforms [this] into an [Either].
+  /// 
+  /// If [this] is [Some], then the returned value will be a [Right<A>] with the
+  /// same value. If this is not the case, a [Left<B>] with [ifNone] will be
+  /// returned instead.
+  /// 
+  /// Example:
+  /// ```dart
+  /// Either<Exception, Data> getData({int id}) {
+  ///   // Get some data from our database
+  ///   final Option<Data> data = database.getData(id: id);
+  /// 
+  ///   // If the data was not found, return a DataNotFoundException
+  ///   return data.toEither(
+  ///     () => const DataNotFoundException(id: id),
+  ///   );
+  /// }
+  /// ```
+  /// 
+  /// See also:
+  ///  - [operator %], which is a _syntax sugar_ for [toEither], but without
+  ///    lazy evaluation.
   Either<B, A> toEither<B>(B ifNone()) => fold(() => left(ifNone()), (a) => right(a));
+
+  /// Transforms [this] into an [Either].
+  /// 
+  /// If [this] is [Some], then the returned value will be a [Right<A>] with the
+  /// same value. If this is not the case, a [Left<B>] with [ifNone] will be
+  /// returned instead.
+  /// 
+  /// This operator is similar to [toEither], but it doesn't support lazy
+  /// evaluation of [ifNone].
+  /// 
+  /// Example:
+  /// ```dart
+  /// Either<Exception, Data> getData({int id}) {
+  ///   // Get some data from our database
+  ///   final Option<Data> data = database.getData(id: id);
+  /// 
+  ///   // If the data was not found, return a DataNotFoundException
+  ///   return data % const DataNotFoundException(id: id);
+  /// }
+  /// ```
   Either<dynamic, A> operator %(ifNone) => toEither(() => ifNone);
 
   /// Returns the wrapped value or [dflt].
   ///
-  /// This is almost the same as [getOrElse], with the exception that this
-  /// operator doesn't support lazy evaluation of [dflt], as [getOrElse]
-  /// does.
+  /// This operator is similar to [getOrElse], but it doesn't support lazy
+  /// evaluation of [dflt].
   /// 
   /// Example: 
   /// 
@@ -129,6 +180,7 @@ abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
 
   Free<F, Option<B>> traverseFree<F, B>(Free<F, B> f(A a)) => fold(() => new Pure(none()), (a) => f(a).map(some));
 
+  /// Turns a [Option] of [IList<A>] into a [IList] of [Option<A>].
   static IList<Option<A>> sequenceIList<A>(Option<IList<A>> ola) => ola.traverseIList(id);
 
   static IVector<Option<A>> sequenceIVector<A>(Option<IVector<A>> ova) => ova.traverseIVector(id);
@@ -191,8 +243,10 @@ abstract class Option<A> implements TraversableMonadPlusOps<Option, A> {
 
   @override Option<Tuple2<int, A>> zipWithIndex() => map((a) => tuple2(0, a));
 
+  /// Returns [true] if [this] is [Some].
   bool isSome() => fold(() => false, (_) => true);
 
+  /// Returns [true] if [this] is [None].
   bool isNone() => !isSome();
 
   static Option<C> map2<A, A2 extends A, B, B2 extends B, C>(Option<A2> fa, Option<B2> fb, C fun(A a, B b)) =>
